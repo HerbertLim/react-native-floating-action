@@ -30,7 +30,7 @@ class FloatingAction extends Component {
     };
 
     this.mainBottomAnimation = new Animated.Value(props.distanceToEdge);
-    this.actionsBottomAnimation = new Animated.Value(ACTION_BUTTON_SIZE + props.distanceToEdge + props.actionsPaddingTopBottom);
+    this.actionsBottomAnimation = new Animated.Value(ACTION_BUTTON_SIZE + (props.distanceToBottom ? props.distanceToBottom : props.distanceToEdge) + props.actionsPaddingTopBottom);
     this.animation = new Animated.Value(0);
     this.actionsAnimation = new Animated.Value(0);
     this.visibleAnimation = new Animated.Value(props.visible ? 0 : 1);
@@ -82,8 +82,9 @@ class FloatingAction extends Component {
   }
 
   onKeyboardShow = (e) => {
-    const { distanceToEdge, actionsPaddingTopBottom } = this.props;
+    const { distanceToEdge, distanceToBottom, actionsPaddingTopBottom } = this.props;
     const { height } = e.endCoordinates;
+    const bottomMargin = distanceToBottom ? distanceToBottom : distanceToEdge;
 
     Animated.parallel([
       Animated.spring(
@@ -106,7 +107,8 @@ class FloatingAction extends Component {
   };
 
   onKeyboardHideHide = () => {
-    const { distanceToEdge, actionsPaddingTopBottom } = this.props;
+    const { distanceToEdge, distanceToBottom, actionsPaddingTopBottom } = this.props;
+    const bottomMargin = distanceToBottom ? distanceToBottom : distanceToEdge;
 
     Animated.parallel([
       Animated.spring(
@@ -134,7 +136,8 @@ class FloatingAction extends Component {
       floatingIcon,
       overrideWithAction,
       iconWidth,
-      iconHeight
+      iconHeight,
+      iconColor,
     } = this.props;
 
     if (overrideWithAction) {
@@ -154,7 +157,7 @@ class FloatingAction extends Component {
       return <Image style={{ width: iconWidth, height: iconHeight }} source={floatingIcon} />;
     }
 
-    return <AddIcon width={iconWidth} height={iconHeight} />;
+    return <AddIcon width={iconWidth} height={iconHeight} color={iconColor} />;
   };
 
   handlePressItem = (itemName) => {

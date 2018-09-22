@@ -231,7 +231,8 @@ class FloatingAction extends Component {
       color,
       position,
       overrideWithAction,
-      distanceToEdge
+      distanceToEdge,
+      distanceToBottom,
     } = this.props;
 
     if (buttonColor) {
@@ -284,7 +285,8 @@ class FloatingAction extends Component {
           styles.buttonContainer,
           styles[`${position}Button`],
           propStyles,
-          animatedVisibleView
+          animatedVisibleView,
+          {bottom: distanceToBottom ? distanceToBottom : distanceToEdge}
         ]}
         accessible={true}
         accessibilityLabel={'Floating Action Button'}

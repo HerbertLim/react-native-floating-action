@@ -72,6 +72,20 @@ class FloatingAction extends Component {
     }
   }
 
+  componentDidUpdate() {
+    const { distanceToEdge, distanceToBottom, actionsPaddingTopBottom } = this.props;
+    const bottomMargin = distanceToBottom ? distanceToBottom : distanceToEdge;
+
+    Animated.spring(
+      this.actionsBottomAnimation,
+      {
+        bounciness: 0,
+        toValue: ACTION_BUTTON_SIZE + bottomMargin + actionsPaddingTopBottom,
+        duration: 250
+      }
+    ).start()
+  }
+
   componentWillUnmount() {
     const { listenKeyboard } = this.props;
 

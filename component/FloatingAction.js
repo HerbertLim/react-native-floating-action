@@ -237,6 +237,7 @@ class FloatingAction extends Component {
       distanceToEdge,
       distanceToBottom,
       buttonOpacity,
+      activeButtonColor,
     } = this.props;
 
     if (buttonColor) {
@@ -266,7 +267,11 @@ class FloatingAction extends Component {
           inputRange: [0, 1],
           outputRange: ['0deg', '45deg']
         })
-      }]
+      }],
+      backgroundColor: this.animation.interpolate({
+        inputRange: [0,1],
+        outputRange: [color, activeButtonColor]
+      })
     };
 
     if (overrideWithAction) {

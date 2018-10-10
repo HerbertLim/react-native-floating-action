@@ -59,31 +59,49 @@ class FloatingAction extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible !== this.props.visible) {
       if (nextProps.visible) {
-        Animated.parallel([
-          Animated.spring(this.visibleAnimation, { toValue: 0 }),
-          Animated.spring(this.fadeAnimation, { toValue: 1 })
-        ]).start();
+        setTimeout(() => {
+          Animated.parallel([
+            Animated.spring(this.visibleAnimation, { toValue: 0 }),
+            Animated.spring(this.fadeAnimation, { toValue: 1 })
+          ]).start();
+
+        },100)
       } if (!nextProps.visible) {
-        Animated.parallel([
-          Animated.spring(this.visibleAnimation, { toValue: 1 }),
-          Animated.spring(this.fadeAnimation, { toValue: 0 })
-        ]).start();
+        setTimeout (() => {
+          Animated.parallel([
+            Animated.spring(this.visibleAnimation, { toValue: 1 }),
+            Animated.spring(this.fadeAnimation, { toValue: 0 })
+          ]).start();
+        },200)
       }
-    }
-  }
-
-  componentDidUpdate() {
-    const { distanceToEdge, distanceToBottom, actionsPaddingTopBottom } = this.props;
-    const bottomMargin = distanceToBottom ? distanceToBottom : distanceToEdge;
-
-    Animated.spring(
-      this.actionsBottomAnimation,
-      {
-        bounciness: 0,
-        toValue: ACTION_BUTTON_SIZE + bottomMargin + actionsPaddingTopBottom,
-        duration: 250
+    } 
+    
+    if (nextProps.visible) {
+      const {distanceToBottom, distanceToEdge, actionsPaddingTopBottom} = nextProps;
+      if (distanceToBottom !== this.props.distanceToBottom) {    
+        const bottomMargin = distanceToBottom ? distanceToBottom : distanceToEdge;
+        setTimeout(() => {
+          Animated.parallel([
+            Animated.spring(
+              this.actionsBottomAnimation,
+              {
+                bounciness: 0,
+                toValue: ACTION_BUTTON_SIZE + bottomMargin + actionsPaddingTopBottom,
+                duration: 250
+              }
+            ),
+            Animated.spring(
+              this.mainBottomAnimation,
+              {
+                bounciness: 0,
+                toValue: bottomMargin,
+                duration: 250
+              }
+            ),
+          ]).start()
+        }, 100)
       }
-    ).start()
+    } 
   }
 
   componentWillUnmount() {
@@ -99,7 +117,7 @@ class FloatingAction extends Component {
     const { distanceToEdge, distanceToBottom, actionsPaddingTopBottom } = this.props;
     const { height } = e.endCoordinates;
     const bottomMargin = distanceToBottom ? distanceToBottom : distanceToEdge;
-
+    
     Animated.parallel([
       Animated.spring(
         this.actionsBottomAnimation,
@@ -108,18 +126,18 @@ class FloatingAction extends Component {
           toValue: (ACTION_BUTTON_SIZE + distanceToEdge + actionsPaddingTopBottom + height) - (isIphoneX() ? 40 : 0),
           duration: 250
         }
-      ),
-      Animated.spring(
-        this.mainBottomAnimation,
-        {
-          bounciness: 0,
-          toValue: (distanceToEdge + height) - (isIphoneX() ? 40 : 0),
-          duration: 250
-        }
-      )
-    ]).start();
-  };
-
+        ),
+        Animated.spring(
+          this.mainBottomAnimation,
+          {
+            bounciness: 0,
+            toValue: (distanceToEdge + height) - (isIphoneX() ? 40 : 0),
+            duration: 250
+          }
+          )
+        ]).start();
+      };
+      
   onKeyboardHideHide = () => {
     const { distanceToEdge, distanceToBottom, actionsPaddingTopBottom } = this.props;
     const bottomMargin = distanceToBottom ? distanceToBottom : distanceToEdge;
@@ -143,7 +161,7 @@ class FloatingAction extends Component {
       )
     ]).start();
   };
-
+  
   getIcon = () => {
     const {
       actions,
@@ -310,7 +328,7 @@ class FloatingAction extends Component {
           propStyles,
           animatedVisibleView,
           {
-            bottom: distanceToBottom ? distanceToBottom : distanceToEdge,
+            //bottom: distanceToBottom ? distanceToBottom : distanceToEdge,
             opacity:buttonOpacity,
           }
         ]}

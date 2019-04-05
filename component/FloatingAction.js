@@ -77,8 +77,8 @@ class FloatingAction extends Component {
     } 
     
     if (nextProps.visible) {
-      const {distanceToBottom, distanceToEdge, actionsPaddingTopBottom} = nextProps;
-      if (distanceToBottom !== this.props.distanceToBottom) {    
+      const {distanceToBottom, distanceToEdge, actionsPaddingTopBottom, visible} = nextProps;
+      if (distanceToBottom !== this.props.distanceToBottom || (!this.props.visible && visible)) {    
         const bottomMargin = distanceToBottom ? distanceToBottom : distanceToEdge;
         setTimeout(() => {
           Animated.parallel([

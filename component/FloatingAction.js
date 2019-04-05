@@ -270,6 +270,7 @@ class FloatingAction extends Component {
       distanceToBottom,
       buttonOpacity,
       activeButtonColor,
+      buttonSize,
     } = this.props;
 
     if (buttonColor) {
@@ -320,6 +321,15 @@ class FloatingAction extends Component {
       propStyles[position] = distanceToEdge;
     }
 
+    const customButtonSize = {
+      width: buttonSize,  
+      height: buttonSize, 
+    }
+    
+    const customButtonOpacity = {
+      opacity:buttonOpacity,
+    }
+
     return (
       <Animated.View
         style={[
@@ -327,21 +337,19 @@ class FloatingAction extends Component {
           styles[`${position}Button`],
           propStyles,
           animatedVisibleView,
-          {
-            //bottom: distanceToBottom ? distanceToBottom : distanceToEdge,
-            opacity:buttonOpacity,
-          }
+          customButtonSize,
+          customButtonOpacity, 
         ]}
         accessible={true}
         accessibilityLabel={'Floating Action Button'}
       >
         <Touchable
           {...getRippleProps(mainButtonColor)}
-          style={styles.button}
+          style={[styles.button, customButtonSize]}
           activeOpacity={0.85}
           onPress={this.animateButton}
         >
-          <Animated.View style={[styles.buttonTextContainer, animatedViewStyle]}>
+          <Animated.View style={[styles.buttonTextContainer, animatedViewStyle, customButtonSize]}> 
             {this.getIcon()}
           </Animated.View>
         </Touchable>

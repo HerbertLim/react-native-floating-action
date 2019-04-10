@@ -324,6 +324,7 @@ class FloatingAction extends Component {
     const customButtonSize = {
       width: buttonSize,  
       height: buttonSize, 
+      borderRadius: buttonSize/2,
     }
     
     const customButtonOpacity = {
